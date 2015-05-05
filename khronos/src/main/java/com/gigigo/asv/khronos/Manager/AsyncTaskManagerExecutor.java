@@ -40,7 +40,7 @@ public class AsyncTaskManagerExecutor {
 
         //asv mierda fuck y fock, aki el getmyInvoker no me devuelve la linea del mainactivity coomo io quiero
         //hay q pasar del 2º tb
-        String Task_Key_Name = getMyTaskKeyName(2);
+        String Task_Key_Name = getMyTaskKeyName(1);
         AsyncTaskObjectModel newAsyncTask = getTaskIfExistInCollection(Task_Key_Name);
 
         //Intent intent = new Intent(mContext, MyExecutorService.class);
@@ -63,6 +63,7 @@ public class AsyncTaskManagerExecutor {
         //mContext.bindService(intent,null,Context.BIND_IMPORTANT);
         return newAsyncTask;
     }
+
     public static AsyncTaskObjectModel getTaskIfExistInCollection(String TaskKeyName) {
         AsyncTaskObjectModel resultTask = null;
         if (AllTasks != null) {
@@ -93,7 +94,7 @@ public class AsyncTaskManagerExecutor {
     }
 
     public static String getMyTaskKeyName(int stepsBack) {
-        return getMyInvoker(stepsBack);
+        return getMyInvoker2(stepsBack);
     }
 
     private static String getMyInvoker() {
@@ -131,5 +132,30 @@ public class AsyncTaskManagerExecutor {
                 isTheNextOneTheFuckingInvoker = true;
         }
         return invokerGüeno;
+    }
+
+    private static String getMyInvoker2(int stepsBack) {
+        String nameOfInvokerForReturn = "NiFUCKINGIdeaMan";
+
+        //when we find in stacktrace this class-->whoAmI this is the begining to go back x steps in the stacktrace
+        String whoAmI = AsyncTaskManagerExecutor.class.getName();
+
+        Thread thread = Thread.currentThread();
+        StackTraceElement[] tracesArray = thread.getStackTrace();
+        int LastAppearOfWhoIam = 0;
+        StackTraceElement stackTrace;
+
+        for (int j = 0; j < tracesArray.length; j++) {
+            stackTrace = tracesArray[j];
+            if (stackTrace.getClassName().equals(whoAmI)) {
+                LastAppearOfWhoIam = j;
+                // break;
+            }
+        }
+
+        if (LastAppearOfWhoIam != 0)
+            nameOfInvokerForReturn = tracesArray[LastAppearOfWhoIam + stepsBack].toString();//todo we can do it better with \n and whatever we want
+
+        return nameOfInvokerForReturn;
     }
 }
