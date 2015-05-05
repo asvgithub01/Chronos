@@ -94,7 +94,7 @@ public class AsyncTaskManagerExecutor {
     }
 
     public static String getMyTaskKeyName(int stepsBack) {
-        return getMyInvoker2(stepsBack);
+        return getMyInvoker(stepsBack);
     }
 
     private static String getMyInvoker() {
@@ -105,36 +105,7 @@ public class AsyncTaskManagerExecutor {
      * @param stepsBack es cuantas trazas hacia atras está la traza que buscamos obtener(depende de dnd tenemos la llamada al getInvoker
      * @return por defecto devuelve NiFUCKINGIdeaMan ^_^, el default value mola xo la variable más ;)
      */
-    private static String getMyInvoker(int stepsBack) {
-        String invokerGüeno = "NiFUCKINGIdeaMan";
-        boolean isTheNextOneTheFuckingInvoker = false;
-
-
-        String whoAmI = AsyncTaskManagerExecutor.class.getName();//es equivalente a poner en harcoded--> "com.gigigo.asv.akaawait.AsyncTaskManagerExecutor";
-
-        Thread thread = Thread.currentThread(); //asv hay mas hilos q delitos de corrupcion tiene el pp...
-        //Map<Thread, StackTraceElement[]> allTraces = Thread.getAllStackTraces();
-        //todo asv  muy bonito, muy bonito, chorromil hilos...problema para el asv del futuro
-
-        StackTraceElement[] tracesArray = thread.getStackTrace();
-        int i = 0;
-        //asv atiende, recorremos el array hasta encotrar la primera coincidencia con esta clase(provocada por la llamada al propio getMyInvoker();
-        // y el siguiente item del array de la traza es nuestro invoker, aunk si tenemos el getinvoker como en este caso embebido dentro de la clase del manager
-        //el invoker q nos interesa es el que produjo la llamada al manager, por eso la truchilla del stepsBack
-        for (StackTraceElement stackTrace : tracesArray) {
-            if (isTheNextOneTheFuckingInvoker) {
-                if (i >= stepsBack) //asv astucia supiner
-                    break;
-                i++;
-                invokerGüeno = stackTrace.toString();
-            }
-            if (stackTrace.getClassName().equals(whoAmI))
-                isTheNextOneTheFuckingInvoker = true;
-        }
-        return invokerGüeno;
-    }
-
-    private static String getMyInvoker2(int stepsBack) {
+       private static String getMyInvoker(int stepsBack) {
         String nameOfInvokerForReturn = "NiFUCKINGIdeaMan";
 
         //when we find in stacktrace this class-->whoAmI this is the begining to go back x steps in the stacktrace
